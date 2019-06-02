@@ -8,18 +8,23 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    // This is a javascript object. We are initializing its own state.
+    // This is a javascript object. We are initializing its own state. This is the
+    // time we do direct assignment to this.state.
     this.state = { lat: null };
+
+    // Getting user's location.
+    window.navigator.geolocation.getCurrentPosition(
+      //we called setState to update our object. We did not do direct assignment!!!
+      (position) => {
+        this.setState({ lat: position.coords.latitude });
+      },
+      (err) => console.log(err)
+    );
   };
 
   // React says that we must define render!!
   render() {
-    window.navigator.geolocation.getCurrentPosition(
-      (position) => console.log(position),
-      (err) => console.log(err)
-    );
-
-    return(<div>Latitude: </div>);
+    return(<div>Latitude: {this.state.lat}</div>);
   };
 };
 
